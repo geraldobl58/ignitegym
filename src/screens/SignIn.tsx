@@ -1,8 +1,10 @@
 import { VStack, Image, Text, Center, Heading } from 'native-base'
 
+import { Input } from '@components/Input'
+
 import BackgroundImg from '@assets/background.png'
 import LogoSvg from '@assets/logo.svg'
-import { Input } from '@components/Input'
+import { Button } from '@components/Buttton'
 
 export function SignIn() {
   return (
@@ -37,6 +39,10 @@ export function SignIn() {
         <Input 
           placeholder="Senha"
           secureTextEntry 
+        />
+
+        <Button 
+          title="Acessar"
         />
       </Center>
     </VStack>
