@@ -23,7 +23,8 @@ export function SignIn() {
       showsVerticalScrollIndicator={false}
     >
       <VStack flex={1} px={10}>
-        <Image 
+        <Image
+          defaultSource={BackgroundImg} 
           source={BackgroundImg}
           alt="Pessoas treinando"
           resizeMode='contain'
