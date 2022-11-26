@@ -19,7 +19,7 @@ export function AppRoutes() {
         component={History}
       />
       <Screen 
-        name="exercise"
+        name="profile"
         component={Profile}
       />
       <Screen 
