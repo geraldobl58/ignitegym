@@ -2,6 +2,8 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Center, Heading, ScrollView, Skeleton, Text, VStack } from "native-base";
 
+import * as ImagePicker from 'expo-image-picker'
+
 import { HeadingScreen } from "@components/HeadingScreen";
 import { UserPhoto } from "@components/UserPhoto";
 import { Input } from "@components/Input";
@@ -11,7 +13,11 @@ const PHOTO_SIZE = 33
 
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false)
-  
+
+  async function handleUserPhotoSelect() {
+    await ImagePicker.launchImageLibraryAsync()
+  }
+
   return (
     <VStack>
       <HeadingScreen title="Perfil" />
@@ -34,7 +40,7 @@ export function Profile() {
             />
           )}
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleUserPhotoSelect}>
             <Text
               color="green.500"
               fontWeight="bold"
