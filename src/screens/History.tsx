@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { VStack, Heading, SectionList } from "native-base";
+import { VStack, Heading, SectionList, Text } from "native-base";
 
 import { HeadingScreen } from "@components/HeadingScreen";
 import { HistoryCard } from "@components/HistoryCard";
@@ -37,6 +37,16 @@ export function History() {
             {section.title}
           </Heading>
         )}
+        ListEmptyComponent={() => (
+          <Text
+            color="gray.100"
+            textAlign="center"
+          >
+            Não há exercícios registrados ainda.{'\n'}
+            Bora começar hoje?
+          </Text>
+        )}
+        showsVerticalScrollIndicator={false}
       />
     </VStack>
   )
