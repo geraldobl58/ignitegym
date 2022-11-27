@@ -17,6 +17,7 @@ export function Card({ ...rest }: CardProps) {
           mr={4}
           rounded="md"
           alt="Nado borboleta"
+          resizeMode="cover"
           source={{ uri: 'https://www.webrun.com.br/wp-content/uploads/2019/05/AdobeStock_103255983.jpeg' }}
         />
 
