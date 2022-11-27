@@ -1,8 +1,17 @@
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { Center, Heading, ScrollView, Skeleton, Text, VStack } from "native-base";
+import { 
+  Center, 
+  Heading, 
+  ScrollView, 
+  Skeleton, 
+  Text, 
+  VStack,
+  useToast
+} from "native-base";
 
 import * as ImagePicker from 'expo-image-picker'
+import * as FileSystem from 'expo-file-system'
 
 import { HeadingScreen } from "@components/HeadingScreen";
 import { UserPhoto } from "@components/UserPhoto";
@@ -13,14 +22,43 @@ const PHOTO_SIZE = 33
 
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false)
+  const [userPhoto, setUserPhoto] = useState('https://github.com/geraldobl58.png')
+
+  const toast = useToast()
 
   async function handleUserPhotoSelect() {
-    await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-      aspect: [4, 4],
-      allowsEditing: true
-    })
+    setPhotoIsLoading(true)
+    try {
+      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true
+      })
+  
+      if (photoSelected.canceled) {
+        return
+      }
+
+      if (photoSelected.assets[0].uri) {
+        const photoInfo = await FileSystem.getInfoAsync(photoSelected.assets[0].uri)
+
+        if (photoInfo.size && (photoInfo.size / 1024 / 1024) > 5) {
+          return toast.show({
+            title: 'Whoops: A imagem deve conter até 5MB',
+            placement: 'top',
+            bgColor: 'red.500'
+          })
+        }
+
+        setUserPhoto(photoSelected.assets[0].uri)
+      }
+  
+    } catch(error) {
+      console.log(error)
+    } finally {
+      setPhotoIsLoading(false)
+    }
   }
 
   return (
@@ -41,7 +79,7 @@ export function Profile() {
             <UserPhoto
               size={PHOTO_SIZE}
               alt="Foto de perfil do usuário" 
-              source={{ uri: 'https://github.com/geraldobl58.png' }}
+              source={{ uri: userPhoto }}
             />
           )}
 
