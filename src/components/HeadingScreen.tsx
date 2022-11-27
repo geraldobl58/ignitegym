@@ -4,7 +4,7 @@ type HeadingProps = {
   title: string
 }
 
-export function Heading({ title }: HeadingProps) {
+export function HeadingScreen({ title }: HeadingProps) {
   return (
     <Center
       bg="gray.600"

@@ -59,7 +59,7 @@ export function AppRoutes() {
         component={History}
         options={{
           tabBarIcon: ({ color }) => (
-            <ProfileSvg fill={color} width={iconSize} height={iconSize} />
+            <HistorySvg fill={color} width={iconSize} height={iconSize} />
           )
         }}
       />
@@ -68,7 +68,7 @@ export function AppRoutes() {
         component={Profile}
         options={{
           tabBarIcon: ({ color }) => (
-            <HistorySvg fill={color} width={iconSize} height={iconSize} />
+            <ProfileSvg fill={color} width={iconSize} height={iconSize} />
           )
         }}
       />
