@@ -1,9 +1,11 @@
-import { Center, Text } from "native-base";
+import { VStack } from "native-base";
+
+import { Heading } from "@components/Heading";
 
 export function History() {
   return (
-    <Center>
-      <Text>History</Text>
-    </Center>
+    <VStack>
+      <Heading title="Histórico de Exercícios" />
+    </VStack>
   )
 }
