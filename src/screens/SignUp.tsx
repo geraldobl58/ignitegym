@@ -57,7 +57,6 @@ export function SignUp() {
       const response = await api.post('/users', {
         name, email, password
       })
-      console.log(response)
     }catch(error) {
       const isAppError = error instanceof AppError
 
