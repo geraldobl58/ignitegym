@@ -13,6 +13,8 @@ export function Routes() {
 
   const contextData = useContext(AuthContext)
 
+  console.log(contextData)
+
   const theme = DefaultTheme
   theme.colors.background = colors.gray[700]
 
