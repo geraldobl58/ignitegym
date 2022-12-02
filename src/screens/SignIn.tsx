@@ -5,6 +5,8 @@ import { Controller, useForm } from 'react-hook-form'
 
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
 
+import { userAuth } from '@hooks/useAuth'
+
 import { Input } from '@components/Input'
 import { Button } from '@components/Buttton'
 
@@ -17,6 +19,7 @@ type FormData = {
 }
 
 export function SignIn() {
+  const { signIn } = userAuth()
   
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
 
@@ -27,7 +30,7 @@ export function SignIn() {
   }
 
   function handleSignIn({ email, password }: FormData) {
-    console.log(email, password )
+    signIn(email, password)
   }
 
   return (
