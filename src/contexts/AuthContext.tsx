@@ -34,7 +34,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         password
       })
 
-      if (data.user) {
+      if (data.user && data.token) {
         setUser(data.user)
         storageUserSave(data.user)
       }
