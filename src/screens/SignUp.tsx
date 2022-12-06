@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { VStack, Image, Text, Center, Heading, ScrollView, useToast } from 'native-base'
@@ -10,6 +11,8 @@ import * as yup from 'yup'
 
 import { Input } from '@components/Input'
 import { Button } from '@components/Buttton'
+
+import { userAuth } from '@hooks/useAuth'
 
 import { api } from '@services/api'
 
@@ -40,7 +43,11 @@ const signUpSchema = yup.object({
 })
 
 export function SignUp() {
+  const [isLoading, setIsLoading] = useState(false)
+
   const toast = useToast()
+
+  const { signIn } = userAuth()
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     resolver: yupResolver(signUpSchema)
@@ -54,10 +61,14 @@ export function SignUp() {
 
   async function handleSignUp({ name, email, password }: FormDataProps) {
     try {
-      const response = await api.post('/users', {
+      setIsLoading(true)
+      await api.post('/users', {
         name, email, password
       })
+      await signIn(email, password)
+
     }catch(error) {
+      setIsLoading(false)
       const isAppError = error instanceof AppError
 
       const title = isAppError ? error.message : 'Não foi possível criar a conta, tente novamente.'
@@ -158,6 +169,7 @@ export function SignUp() {
           <Button 
             title="Criar e acessar"
             onPress={handleSubmit(handleSignUp)}
+            isLoading={isLoading}
           />
 
         </Center>
