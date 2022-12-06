@@ -3,9 +3,10 @@ import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 
 import { userAuth } from "@hooks/useAuth";
 
+import { Loading } from "@components/Loading";
+
 import { AuthRoutes } from "./auth.routes";
 import { AppRoutes } from "./app.routes";
-import { Loading } from "@components/Loading";
 
 export function Routes() {
   const { colors } = useTheme()

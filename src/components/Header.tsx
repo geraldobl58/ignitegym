@@ -5,12 +5,18 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 import { UserPhoto } from './UserPhoto'
 
+import { userAuth } from '@hooks/useAuth'
+
+import defaultUserPhotoImg from '@assets/userPhotoDefault.png'
+
 export function Header() {
+  const { user } = userAuth()
+
   return (
     <HStack bg="gray.600" pt={16} pb={5} px={8} alignItems="center">
       <UserPhoto 
         size={16}
-        source={{ uri: 'https://github.com/geraldobl58.png' }}
+        source={user.avatar ? { uri: user.avatar } : defaultUserPhotoImg}
         alt="Imagem do usuário"
         mr={4}
       />
@@ -26,7 +32,7 @@ export function Header() {
           color="gray.100"
           fontSize="md"
         >
-          John Doe
+          {user.name}
         </Heading>
       </VStack>
 
