@@ -11,15 +11,13 @@ export function Routes() {
 
   const { user } = userAuth()
 
-  console.log(user)
-
   const theme = DefaultTheme
   theme.colors.background = colors.gray[700]
 
   return (
     <Box flex={1} bg="gray.700">
       <NavigationContainer theme={theme}>
-        <AuthRoutes />
+        {user.id ? <AppRoutes /> : <AuthRoutes />}
       </NavigationContainer>
     </Box>
   )
