@@ -12,9 +12,11 @@ import { api } from "@services/api";
 
 import { AppError } from "@utils/AppError";
 
+import { ExerciseDTO } from "@dtos/ExerciseDTO";
+
 export function Home() {
   const [groups, setGroups] = useState<string[]>([])
-  const [exercises, setExercises] = useState([])
+  const [exercises, setExercises] = useState<ExerciseDTO[]>([])
   const [groupSelected, setGroupSelected] = useState('costas')
 
   const toast = useToast()
@@ -44,7 +46,7 @@ export function Home() {
   async function fetchExercisesByGroup() {
     try {
       const response = await api.get(`/exercises/bygroup/${groupSelected}`)
-      console.log(response.data)
+      setExercises(response.data)
     } catch(error) {
       const isAppError = error instanceof AppError
       const title = isAppError ? error.message : 'Não possível carregar os exercícios.'
@@ -100,7 +102,7 @@ export function Home() {
 
         <FlatList 
           data={exercises}
-          keyExtractor={item => item}
+          keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <Card 
               onPress={handleOpenExerciseDetails}
