@@ -3,11 +3,13 @@ import { Heading, HStack, Image, Text, VStack, Icon } from "native-base";
 
 import { Entypo } from '@expo/vector-icons'
 
-type CardProps = TouchableOpacityProps & {
+import { ExerciseDTO } from "@dtos/ExerciseDTO";
 
+type CardProps = TouchableOpacityProps & {
+  data: ExerciseDTO
 }
 
-export function Card({ ...rest }: CardProps) {
+export function Card({ data, ...rest }: CardProps) {
   return (
     <TouchableOpacity {...rest}>
       <HStack bg="gray.500" alignItems="center" p={2} pr={4} mb={3} rounded="md">
@@ -26,7 +28,7 @@ export function Card({ ...rest }: CardProps) {
             color="white"
             fontSize="lg"
           >
-            Nado borboleta
+            {data.name}
           </Heading>
 
           <Text
@@ -35,7 +37,7 @@ export function Card({ ...rest }: CardProps) {
             mt={1}
             numberOfLines={2}
           >
-            5 chegada de 50 metros
+            {data.series} séries x {data.series} repetições
           </Text>
         </VStack>
 
