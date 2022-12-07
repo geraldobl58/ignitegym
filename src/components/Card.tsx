@@ -5,6 +5,8 @@ import { Entypo } from '@expo/vector-icons'
 
 import { ExerciseDTO } from "@dtos/ExerciseDTO";
 
+import { api } from "@services/api";
+
 type CardProps = TouchableOpacityProps & {
   data: ExerciseDTO
 }
@@ -20,7 +22,7 @@ export function Card({ data, ...rest }: CardProps) {
           rounded="md"
           alt="Nado borboleta"
           resizeMode="cover"
-          source={{ uri: 'https://www.webrun.com.br/wp-content/uploads/2019/05/AdobeStock_103255983.jpeg' }}
+          source={{ uri: `${api.defaults.baseURL}/exercise/thumb/${data.thumb}` }}
         />
 
         <VStack flex={1}>
