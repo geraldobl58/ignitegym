@@ -19,14 +19,14 @@ export function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [groups, setGroups] = useState<string[]>([])
   const [exercises, setExercises] = useState<ExerciseDTO[]>([])
-  const [groupSelected, setGroupSelected] = useState('costas')
+  const [groupSelected, setGroupSelected] = useState('antebraço')
 
   const toast = useToast()
 
   const navigation = useNavigation<AppNavigatorRoutesProps>()
 
-  function handleOpenExerciseDetails() {
-    navigation.navigate('exercise')
+  function handleOpenExerciseDetails(exerciseId: string) {
+    navigation.navigate('exercise', { exerciseId })
   }
 
   async function fetchGroups() {
@@ -112,7 +112,7 @@ export function Home() {
               renderItem={({ item }) => (
                 <Card 
                   data={item}
-                  onPress={handleOpenExerciseDetails}
+                  onPress={() => handleOpenExerciseDetails(item.id)}
                 />
               )}
               showsVerticalScrollIndicator={false}
