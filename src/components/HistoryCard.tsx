@@ -1,6 +1,11 @@
+import { HistoryDTO } from "@dtos/HistoryDTO";
 import { Heading, HStack, Text, VStack } from "native-base";
 
-export function HistoryCard() {
+type HistoryCardProps = {
+  data: HistoryDTO
+}
+
+export function HistoryCard({ data }: HistoryCardProps) {
   return (
     <HStack
       w="full"
@@ -19,7 +24,7 @@ export function HistoryCard() {
           textTransform="capitalize"
           numberOfLines={1}
         >
-          Nado borboleta
+          {data.group}
         </Heading>
 
         <Text
@@ -27,7 +32,7 @@ export function HistoryCard() {
           fontSize="lg"
           numberOfLines={1}
         >
-          5 chegada de 50 metros
+          {data.name}
         </Text>
       </VStack>
 
@@ -35,7 +40,7 @@ export function HistoryCard() {
         color="gray.300"
         fontSize="md"
       >
-        07:00
+        {data.hour}
       </Text>
     </HStack>
   )
