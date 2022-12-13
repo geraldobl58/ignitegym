@@ -26,6 +26,8 @@ import { Button } from "@components/Buttton";
 
 import { userAuth } from "@hooks/useAuth";
 
+import defaultUserPhotoImg from '@assets/userPhotoDefault.png'
+
 import { AppError } from "@utils/AppError";
 
 import { api } from "@services/api";
@@ -67,7 +69,7 @@ const profileSchema = yup.object({
 export function Profile() {
   const [isUpdating, setIsUpdating] = useState(false)
   const [photoIsLoading, setPhotoIsLoading] = useState(false)
-  const [userPhoto, setUserPhoto] = useState('https://github.com/geraldobl58.png')
+  const [userPhoto, setUserPhoto] = useState('')
 
   const toast = useToast()
 
@@ -117,11 +119,15 @@ export function Profile() {
         const userPhotoUploadForm = new FormData()
         userPhotoUploadForm.append('avatar', photoFile)
 
-        await api.patch('/users/avatar', userPhotoUploadForm, {
+        const avatarUpdatedResponse = await api.patch('/users/avatar', userPhotoUploadForm, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         })
+
+        const userUpdated = user
+        userUpdated.avatar = avatarUpdatedResponse.data.avatar
+        updateUserProfile(userUpdated)
 
         toast.show({
           title: 'Foto atualizada!',
@@ -186,7 +192,10 @@ export function Profile() {
             <UserPhoto
               size={PHOTO_SIZE}
               alt="Foto de perfil do usuário" 
-              source={{ uri: userPhoto }}
+              source={user.avatar 
+                ? { uri: `${api.defaults.baseURL}/avatar/${user.avatar}` } 
+                : defaultUserPhotoImg
+              }
             />
           )}
 
