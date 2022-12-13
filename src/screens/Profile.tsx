@@ -26,6 +26,10 @@ import { Button } from "@components/Buttton";
 
 import { userAuth } from "@hooks/useAuth";
 
+import { AppError } from "@utils/AppError";
+
+import { api } from "@services/api";
+
 const PHOTO_SIZE = 33
 
 type FormDataProps = {
@@ -61,6 +65,7 @@ const profileSchema = yup.object({
   })
 
 export function Profile() {
+  const [isUpdating, setIsUpdating] = useState(false)
   const [photoIsLoading, setPhotoIsLoading] = useState(false)
   const [userPhoto, setUserPhoto] = useState('https://github.com/geraldobl58.png')
 
@@ -112,7 +117,29 @@ export function Profile() {
   }
 
   async function handleProfileUpdate(data: FormDataProps) {
-    console.log(data)
+    try {
+      setIsUpdating(true)
+    
+      await api.put('/users', data)
+
+      toast.show({
+        title: 'Perfil atualizado com suecesso.',
+        placement: 'top',
+        bgColor: 'green.500'
+      })
+
+    } catch(error) {
+      const isAppError = error instanceof AppError
+      const title = isAppError ? error.message : 'Não foi possível atualizar seus dados.'
+    
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+    } finally {
+      setIsUpdating(false)
+    }
   }
 
   return (
@@ -233,6 +260,7 @@ export function Profile() {
             title="Atualizar"
             mt={4}
             onPress={handleSubmit(handleProfileUpdate)}
+            isLoading={isUpdating}
           />
         </VStack>
       </ScrollView>
