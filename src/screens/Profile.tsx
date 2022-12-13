@@ -50,7 +50,11 @@ const profileSchema = yup.object({
     .nullable()
     .transform((value) => !!value ? value : null)
     .oneOf([yup.ref('password'), null], 'A confirmação de senha mão confere')
-})
+    .when('password', {
+      is: (Field: any) => Field,
+      then: yup.string().nullable().required('Informe a confirmação da senha.')
+    })
+  })
 
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false)
