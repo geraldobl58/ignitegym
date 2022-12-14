@@ -22,6 +22,7 @@ export type AuthContextDataProps = {
   signOut: () => Promise<void>
   isLoadingUserStorageData: boolean
   updateUserProfile: (userUpdated: UserDTO) => Promise<void>
+  refreshToken: string
 }
 
 type AuthContextProviderProps = {
@@ -32,6 +33,7 @@ export const AuthContext = createContext<AuthContextDataProps>({} as AuthContext
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<UserDTO>({} as UserDTO)
+  const [refreshToken, setRefreshToken] = useState('')
   const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true)
 
   async function userAndTokenUpdate(userData: UserDTO, token: string) {
@@ -114,12 +116,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   }
 
+  function refreshTokenUpdated(newToken: string) {
+    setRefreshToken(newToken)
+  }
+
   useEffect(() => {
     loadUserData()
   }, [])
 
   useEffect(() => {
-    const subscribe = api.registerInterceptTokenManager(signOut)
+    const subscribe = api.registerInterceptTokenManager({ signOut, refreshTokenUpdated })
 
     return () => {
       subscribe()
@@ -132,7 +138,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         signIn,
         isLoadingUserStorageData,
         signOut,
-        updateUserProfile 
+        updateUserProfile,
+        refreshToken 
       }}
     >
       {children}
